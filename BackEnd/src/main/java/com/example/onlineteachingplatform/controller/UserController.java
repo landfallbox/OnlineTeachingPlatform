@@ -16,23 +16,30 @@ public class UserController {
 
     @PostMapping("/register")
     public Result<User> register(@RequestBody User user) {
-        User newUser = userService.register(user.getUsername(), user.getPassword());
+        User newUser = userService.register(user);
 
         if(newUser != null) {
-            return Result.success("success", newUser);
+            User loginUser = userService.login(newUser.getId(), newUser.getPassword());
+
+            if(loginUser != null){
+                return Result.success(0, "register and auto login success", loginUser);
+            }
+            else{
+                return Result.error(3, "register success while login fail");
+            }
         } else {
-            return Result.error(1, "用户名已存在");
+            return Result.error(1, "register fail");
         }
     }
 
     @GetMapping("/login")
-    public Result<User> login(@RequestParam String username, @RequestParam String password) {
-        User user = userService.login(username, password);
+    public Result<User> login(@RequestParam Integer id, @RequestParam String password) {
+        User user = userService.login(id, password);
 
         if(user != null) {
-            return Result.success("success", user);
+            return Result.success(2, "login success", user);
         } else {
-            return Result.error(2, "用户名或密码错误");
+            return Result.error(3, "login fail");
         }
     }
 }

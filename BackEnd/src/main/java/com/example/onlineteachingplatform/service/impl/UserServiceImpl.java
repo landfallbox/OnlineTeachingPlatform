@@ -12,25 +12,19 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public User register(String username, String password) {
-//        用户名不允许重复
-        if(userMapper.selectByUsername(username) != null) {
-            return null;
-        }
-
-        int result = userMapper.insert(username, password);
+    public User register(User user) {
+        int result = userMapper.insert(user);
 
         if(result == 1) {
-            return userMapper.selectByUsername(username);
+            return user;
         } else {
             return null;
         }
-
     }
 
     @Override
-    public User login(String username, String password) {
-        User user = userMapper.selectByUsername(username);
+    public User login(Integer id, String password) {
+        User user = userMapper.selectById(id);
 
         if(user != null && user.getPassword().equals(password)) {
             return user;

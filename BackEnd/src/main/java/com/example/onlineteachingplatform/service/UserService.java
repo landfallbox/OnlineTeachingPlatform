@@ -7,15 +7,14 @@ import org.springframework.stereotype.Service;
 public interface UserService {
     /**
      * 注册
-     * @param username 用户名
-     * @param password 密码
+     * @param user 用户
      */
-    User register(String username, String password);
+    User register(User user);
 
     /**
      * 登录
-     * @param username 用户名
+     * @param id 用户账号
      * @param password 密码
      */
-    User login(String username, String password);
+    User login(Integer id, String password);
 }
