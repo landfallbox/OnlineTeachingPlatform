@@ -1,10 +1,16 @@
 package com.example.onlineteachingplatform.controller;
 
-import com.example.onlineteachingplatform.entity.User;
+import com.example.onlineteachingplatform.entity.dto.LoginDTO;
+import com.example.onlineteachingplatform.entity.dto.RegisterDTO;
+import com.example.onlineteachingplatform.entity.vo.UserVO;
 import com.example.onlineteachingplatform.service.UserService;
 import com.example.onlineteachingplatform.utils.Result;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * @author Samoye
+ * @date 2023/6/25
+ */
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -15,30 +21,38 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public Result<User> register(@RequestBody User user) {
-        User newUser = userService.register(user);
+    public Result<UserVO> register(@RequestBody RegisterDTO user) {
+        // 注册
+        LoginDTO newUser = userService.register(user);
 
+        // 注册成功
         if(newUser != null) {
-            User loginUser = userService.login(newUser.getId(), newUser.getPassword());
+            // 注册成功后自动登录
+            UserVO userVO = userService.login(newUser);
 
-            if(loginUser != null){
-                return Result.success(0, "register and auto login success", loginUser);
+            if(userVO != null) {
+                return Result.success(0, "register and autologin successfully", userVO);
             }
-            else{
-                return Result.error(3, "register success while login fail");
+            else {
+                return Result.error(3, "register successfully but fail to autologin ");
             }
-        } else {
-            return Result.error(1, "register fail");
+        }
+        // 注册失败
+        else {
+            return Result.error(1, "fail to register");
         }
     }
 
-    @GetMapping("/login")
-    public Result<User> login(@RequestParam Integer id, @RequestParam String password) {
-        User user = userService.login(id, password);
-
+    @PostMapping("/login")
+    public Result<UserVO> login(@RequestBody LoginDTO loginDto) {
+        // 登录
+        UserVO user = userService.login(loginDto);
+        // 登录成功
         if(user != null) {
             return Result.success(2, "login success", user);
-        } else {
+        }
+        // 登录失败
+        else {
             return Result.error(3, "login fail");
         }
     }

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>已选课程</title>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="../css/stu/study.css">
+    </head>
+    <body>
+        <!-- 导航栏 -->
+        <nav class="navbar navbar-expand-lg custom-navbar">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">Online Teaching Platform</a>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="course_selection.html">选课</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="selected_courses.html">已选课程</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="username" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="username">
+                            <li>
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">用户信息</h5>
+                                        <hr>
+                                        <p class="card-text" id="id"></p>
+                                        <p class="card-text" id="name"></p>
+                                        <p class="card-text" id="role"></p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- 主要内容 -->
+        <div class="main-container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- 视频播放器 -->
+                    <div class="video-player-container">
+                        <video class="video" controls id="video">
+                            <source src="">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+
+                    <!-- 评论区 -->
+                    <div class="comment-section">
+                        <h3>评论区</h3>
+                        <div class="comment-form-wrapper">
+                            <div class="comment-input">
+                                <label for="comment-input"></label>
+                                <input type="text" id="comment-input" placeholder="请输入评论" class="comment-input">
+                            </div>
+                            <button class="submit-button" id="submit-button">提交</button>
+                        </div>
+                        <div id="comment-list">
+                            <!-- 评论列表 -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 ">
+                    <!-- 课程信息 -->
+                    <div class="course-info-container">
+                        <div class="course-info">
+                            <h2 id="course-name"></h2>
+                            <p id="teacher-name"></p>
+                            <p id="begin-time"></p>
+                            <p id="end-time"></p>
+                        </div>
+                    </div>
+
+                    <!-- 已选课程 -->
+                    <div class="selected-courses" id="selected-courses-container">
+                        <!-- 已选课程 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap JS -->
+        <script src="../js/bootstrap/bootstrap.bundle.min.js"></script>
+        <!-- 自定义JS-->
+        <script src="../js/common.js"></script>
+        <script src="../js/stu/study.js"></script>
+    </body>
+</html>

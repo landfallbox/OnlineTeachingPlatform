@@ -2,12 +2,11 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Online Teaching Platform</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>学生选课</title>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css">
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="../css/stu/index.css">
+        <link rel="stylesheet" href="../css/stu/course_selection.css">
     </head>
     <body>
         <!-- 导航栏 -->
@@ -16,10 +15,10 @@
                 <a class="navbar-brand" href="index.html">Online Teaching Platform</a>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="course_selection.html">选课</a>
+                        <a class="nav-link" href="#">选课</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="selected_courses.html">已选课程</a>
+                        <a class="nav-link" href="selected_courses.html">查看已选课程</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="username" role="button"
@@ -43,17 +42,18 @@
             </div>
         </nav>
 
-
-        <!-- 主页内容 -->
+        <!-- 课程列表 -->
         <div class="container mt-4">
-            <h1>欢迎来到在线教学平台！</h1>
-            <p>这里是主页的内容，可以根据需要添加更多的信息和功能。</p>
+            <h2>课程列表</h2>
+            <div class="course-list">
+                <!-- 动态生成的课程卡片将添加到这里 -->
+            </div>
         </div>
 
         <!-- Bootstrap JS -->
         <script src="../js/bootstrap/bootstrap.bundle.min.js"></script>
         <!-- 自定义JS-->
         <script src="../js/common.js"></script>
-        <script src="../js/stu/index.js"></script>
+        <script src="../js/stu/course_selection.js"></script>
     </body>
 </html>
