@@ -11,8 +11,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
-
 /**
  * @author : Samoye
  * @date : 2023/6/26 026 15:55
@@ -38,18 +36,6 @@ public interface CourseMapper {
             @Mapping(source = "courseId", target = "courseId")
     })
     CourseSelectionVO toCourseSelectionVO(CourseSelectionPO courseSelectionPo);
-
-    /**
-     * 将 List<CourseDTO> 转换为 List<CourseVO>
-     */
-    @Mappings({
-            @Mapping(source = "id", target = "id"),
-            @Mapping(source = "teacherName", target = "teacherName"),
-            @Mapping(source = "name", target = "name"),
-            @Mapping(source = "beginTime", target = "beginTime"),
-            @Mapping(source = "endTime", target = "endTime"),
-    })
-    List<CourseVO> toCourseVO(List<CourseDTO> courseDtoList);
 
 
     /**
