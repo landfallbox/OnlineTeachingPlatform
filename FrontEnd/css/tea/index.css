@@ -1,0 +1,58 @@
+/*导航栏*/
+.custom-navbar {
+    background-color: rgb(194, 175, 148);
+    /*字体颜色*/
+    color: white;
+}
+.navbar-brand {
+    color: white;
+}
+.navbar-nav .nav-link {
+    color: white;
+}
+.container{
+    color: rgb(194, 175, 148);
+}
+
+/*悬浮按钮 用于创建新课程*/
+.floating-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+}
+
+.floating-button button {
+    position: relative; /* 添加相对定位 */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    background-color: rgb(194, 175, 148);
+    border: none;
+}
+
+.floating-button button .fa-plus {
+    pointer-events: none;
+}
+
+.floating-button button:hover {
+    background-color: rgb(194, 175, 148);
+}
+
+.floating-button button:hover::after {
+    content: "点击后创建新课程";
+    position: absolute;
+    top: -30px;
+    left: -120px;
+    padding: 5px 10px;
+    background-color: rgb(194, 175, 148);
+    color: white;
+    border-radius: 5px;
+}
+
+
+/*表单内容之间的间距*/
+.form-group {
+    margin-bottom: 30px;
+}
+

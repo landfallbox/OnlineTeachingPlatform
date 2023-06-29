@@ -14,6 +14,16 @@ import java.util.List;
  */
 @Mapper
 public interface CourseDao {
+    /**
+     * 创建课程 插入一条课程信息记录
+     * @param coursePo 课程信息
+     */
+    @Insert("""
+            INSERT INTO courses (name, begin_time, end_time, teacher_id)
+            VALUES (#{name}, #{beginTime}, #{endTime}, #{teacherId})
+            """)
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    int insertCourse(CoursePO coursePo);
 
     @Insert("""
             INSERT INTO students_courses (student_id, course_id)

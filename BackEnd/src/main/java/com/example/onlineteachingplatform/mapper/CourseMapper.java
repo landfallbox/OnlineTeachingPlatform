@@ -2,6 +2,7 @@ package com.example.onlineteachingplatform.mapper;
 
 import com.example.onlineteachingplatform.entity.dto.CourseDTO;
 import com.example.onlineteachingplatform.entity.dto.CourseSelectionDTO;
+import com.example.onlineteachingplatform.entity.po.CoursePO;
 import com.example.onlineteachingplatform.entity.po.CourseSelectionPO;
 import com.example.onlineteachingplatform.entity.vo.CourseSelectionVO;
 import com.example.onlineteachingplatform.entity.vo.CourseVO;
@@ -49,4 +50,28 @@ public interface CourseMapper {
             @Mapping(source = "endTime", target = "endTime"),
     })
     List<CourseVO> toCourseVO(List<CourseDTO> courseDtoList);
+
+
+    /**
+     * 将 CourseDTO 转换为 CoursePO
+     */
+    @Mappings({
+            @Mapping(source = "teacherId", target = "teacherId"),
+            @Mapping(source = "name", target = "name"),
+            @Mapping(source = "beginTime", target = "beginTime"),
+            @Mapping(source = "endTime", target = "endTime")
+    })
+    CoursePO toCoursePo(CourseDTO courseDto);
+
+
+    /**
+     * 将 CoursePO 转换为 CourseVO
+     */
+    @Mappings({
+            @Mapping(source = "id", target = "id"),
+            @Mapping(source = "name", target = "name"),
+            @Mapping(source = "beginTime", target = "beginTime"),
+            @Mapping(source = "endTime", target = "endTime"),
+    })
+    CourseVO toCourseVO(CoursePO coursePo);
 }

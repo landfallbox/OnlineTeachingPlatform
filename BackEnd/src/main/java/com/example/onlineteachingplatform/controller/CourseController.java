@@ -1,12 +1,15 @@
 package com.example.onlineteachingplatform.controller;
 
+import com.example.onlineteachingplatform.entity.dto.CourseDTO;
 import com.example.onlineteachingplatform.entity.dto.CourseSelectionDTO;
 import com.example.onlineteachingplatform.entity.vo.CourseVO;
 import com.example.onlineteachingplatform.entity.vo.CourseSelectionVO;
 import com.example.onlineteachingplatform.service.CourseService;
 import com.example.onlineteachingplatform.utils.Result;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -21,6 +24,26 @@ public class CourseController {
     public CourseController(CourseService courseService) {
         this.courseService = courseService;
     }
+
+    /**
+     * 创建课程
+     */
+    @PostMapping("/create")
+    public Result<CourseVO> create(@RequestParam("name") String courseName,
+                                   @RequestParam("teacherId") Integer teacherId,
+                                   @RequestParam("beginTime") LocalDateTime beginTime,
+                                   @RequestParam("endTime") LocalDateTime endTime,
+                                   @RequestParam("video") MultipartFile video) {
+        CourseVO course = courseService.createCourse(courseName, teacherId, beginTime, endTime, video);
+
+        if(course != null) {
+            return Result.success(16, "create course successfully", course);
+        } else {
+            return Result.error(17, "fail to create course");
+        }
+    }
+
+
 
     /**
      * 学生选课

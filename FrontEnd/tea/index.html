@@ -7,7 +7,7 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css">
         <!-- Custom CSS -->
-        <link rel="stylesheet" href="../css/stu/index.css">
+        <link rel="stylesheet" href="../css/tea/index.css">
     </head>
     <body>
         <!-- 导航栏 -->
@@ -15,9 +15,6 @@
             <div class="container">
                 <a class="navbar-brand" href="index.html">Online Teaching Platform</a>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="create_course.html">创建课程</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="createded_courses.html">我创建的课程</a>
                     </li>
@@ -48,12 +45,57 @@
         <div class="container mt-4">
             <h1>欢迎来到在线教学平台！</h1>
             <p>这里是主页的内容，可以根据需要添加更多的信息和功能。</p>
+
+            <div class="floating-button">
+                <button class="btn btn-primary" id="create-course-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 模态框 -->
+        <div class="modal fade" id="createCourseModal" tabindex="-1" role="dialog" aria-labelledby="createCourseModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="createCourseModalLabel">创建新课程</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 创建课程的表单 -->
+                        <form>
+                            <!-- 表单内容 -->
+                            <div class="form-group">
+                                <label for="course-name">课程名称</label>
+                                <input type="text" class="form-control" id="course-name" placeholder="输入课程名称">
+                            </div>
+                            <div class="form-group">
+                                <label for="begin-time">开始时间</label>
+                                <input type="datetime-local" class="form-control" id="begin-time">
+                            </div>
+                            <div class="form-group">
+                                <label for="end-time">结束时间</label>
+                                <input type="datetime-local" class="form-control" id="end-time">
+                            </div>
+                            <div class="form-group">
+                                <label for="video-file">视频文件</label>
+                                <input type="file" class="form-control-file" id="video-file" name="videoFile">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" id="close-modal">关闭</button>
+                        <button type="button" class="btn btn-primary" id="submit-modal">提交</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Bootstrap JS -->
         <script src="../js/bootstrap/bootstrap.bundle.min.js"></script>
         <!-- 自定义JS-->
         <script src="../js/common.js"></script>
-        <script src="../js/stu/index.js"></script>
+        <script src="../js/tea/index.js"></script>
+        <!-- Font Awesome -->
+        <script src="../js/tea/fontawesome.js"></script>
     </body>
 </html>

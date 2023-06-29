@@ -1,10 +1,13 @@
 package com.example.onlineteachingplatform.service;
 
+import com.example.onlineteachingplatform.entity.dto.CourseDTO;
 import com.example.onlineteachingplatform.entity.dto.CourseSelectionDTO;
 import com.example.onlineteachingplatform.entity.vo.CourseVO;
 import com.example.onlineteachingplatform.entity.vo.CourseSelectionVO;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -13,6 +16,14 @@ import java.util.List;
  */
 @Service
 public interface CourseService {
+    /**
+     * 创建课程
+     */
+    CourseVO createCourse(String courseName,
+                          Integer teacherId,
+                          LocalDateTime beginTime,
+                          LocalDateTime endTime,
+                          MultipartFile video);
 
     /**
      * 学生选课

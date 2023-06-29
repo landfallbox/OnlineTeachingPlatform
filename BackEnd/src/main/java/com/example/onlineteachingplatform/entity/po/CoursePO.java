@@ -1,5 +1,6 @@
 package com.example.onlineteachingplatform.entity.po;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;

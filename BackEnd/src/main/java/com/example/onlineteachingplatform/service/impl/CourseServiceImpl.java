@@ -1,7 +1,8 @@
 package com.example.onlineteachingplatform.service.impl;
 
-import com.example.onlineteachingplatform.entity.dto.CourseDTO;
+import com.example.onlineteachingplatform.dao.UserDao;
 import com.example.onlineteachingplatform.entity.dto.CourseSelectionDTO;
+import com.example.onlineteachingplatform.entity.po.CoursePO;
 import com.example.onlineteachingplatform.entity.vo.CourseVO;
 import com.example.onlineteachingplatform.entity.po.CourseSelectionPO;
 import com.example.onlineteachingplatform.dao.CourseDao;
@@ -9,8 +10,14 @@ import com.example.onlineteachingplatform.entity.vo.CourseSelectionVO;
 import com.example.onlineteachingplatform.mapper.CourseMapper;
 import com.example.onlineteachingplatform.service.CourseService;
 import jakarta.annotation.Resource;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -21,6 +28,55 @@ import java.util.List;
 public class CourseServiceImpl implements CourseService {
     @Resource
     private CourseDao courseDao;
+    @Resource
+    private UserDao userDao;
+
+    /**
+     * 创建课程
+     */
+    @Override
+    public CourseVO createCourse(String courseName, Integer teacherId, LocalDateTime beginTime, LocalDateTime endTime,
+                                 MultipartFile video) {
+        // 插入信息
+        CoursePO coursePo = new CoursePO();
+        coursePo.setName(courseName);
+        coursePo.setTeacherId(teacherId);
+        coursePo.setBeginTime(beginTime);
+        coursePo.setEndTime(endTime);
+        int rowsChanged = courseDao.insertCourse(coursePo);
+
+        // 插入失败
+        if (rowsChanged != 1) {
+            return null;
+        }
+
+        try {
+            // 视频保存相对路径 视频名与对应课程名相同
+            String videoPath = "\\src\\main\\resources\\static\\videos\\";
+            // 项目的根路径
+            String projectRootPath = System.getProperty("user.dir");
+            // 视频保存绝对路径
+            videoPath = projectRootPath + File.separator + videoPath;
+
+            // 文件后缀
+            String originalName = video.getOriginalFilename();
+            String ext = "." + FilenameUtils.getExtension(originalName);
+
+            File videoFile = new File(videoPath, courseName + ext);
+
+            // 保存视频
+            FileUtils.writeByteArrayToFile(videoFile, video.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String teacherName = userDao.selectNameById(teacherId);
+        CourseVO courseVo = CourseMapper.INSTANCE.toCourseVO(coursePo);
+        courseVo.setTeacherName(teacherName);
+
+        return courseVo;
+    }
+
 
     @Override
     public CourseSelectionVO stuSelectCourse(CourseSelectionDTO courseSelectionDto) {

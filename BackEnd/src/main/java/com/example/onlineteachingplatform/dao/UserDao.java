@@ -14,7 +14,7 @@ import org.apache.ibatis.annotations.Select;
 public interface UserDao {
     @Insert("""
             INSERT INTO users (username, password, role)
-            VALUES (#{userPo.username}, #{userPo.password}, #{userPo.role})
+            VALUES (#{userPo.username}, #{password}, #{role})
             """)
     @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
     int insert(UserPO userPo);
@@ -22,7 +22,7 @@ public interface UserDao {
     @Select("""
             SELECT id, username, role
             FROM users
-            WHERE id = #{userPo.id} AND password = #{userPo.password}
+            WHERE id = #{id} AND password = #{password}
             """)
     UserVO selectByIdAndPwd(UserPO userPo);
 
