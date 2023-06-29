@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * @author Samoye
+ */
 @Data
 public class Result<T> {
     private int code;

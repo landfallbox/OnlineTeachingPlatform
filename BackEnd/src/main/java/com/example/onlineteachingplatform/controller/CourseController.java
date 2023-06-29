@@ -1,6 +1,5 @@
 package com.example.onlineteachingplatform.controller;
 
-import com.example.onlineteachingplatform.entity.dto.CourseDTO;
 import com.example.onlineteachingplatform.entity.dto.CourseSelectionDTO;
 import com.example.onlineteachingplatform.entity.vo.CourseVO;
 import com.example.onlineteachingplatform.entity.vo.CourseSelectionVO;

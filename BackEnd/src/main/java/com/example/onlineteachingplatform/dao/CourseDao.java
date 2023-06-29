@@ -1,6 +1,5 @@
 package com.example.onlineteachingplatform.dao;
 
-import com.example.onlineteachingplatform.entity.dto.CourseDTO;
 import com.example.onlineteachingplatform.entity.po.CoursePO;
 import com.example.onlineteachingplatform.entity.vo.CourseVO;
 import com.example.onlineteachingplatform.entity.po.CourseSelectionPO;
