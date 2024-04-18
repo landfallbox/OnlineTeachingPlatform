@@ -124,4 +124,25 @@ public interface CourseDao {
             @Result(property = "endTime", column = "end_time"),
     })
     List<CourseVO> getOtherSelectedCourses(Integer stuId, Integer courseId);
+
+
+    @Select("""
+            SELECT C.id AS id, C.name AS course_name, C.begin_time, C.end_time
+            FROM courses C
+            WHERE C.teacher_id = #{teacherId}
+            """)
+    @Results({
+            @Result(property = "id", column = "id"),
+            @Result(property = "name", column = "course_name"),
+            @Result(property = "beginTime", column = "begin_time"),
+            @Result(property = "endTime", column = "end_time")
+    })
+    List<CourseVO> selectCreatedCourses(Integer teacherId);
+
+    @Update("""
+            UPDATE courses
+            SET name = #{name}, begin_time = #{beginTime}, end_time = #{endTime}
+            WHERE id = #{id}
+            """)
+    int updateCourse(CoursePO coursePo);
 }

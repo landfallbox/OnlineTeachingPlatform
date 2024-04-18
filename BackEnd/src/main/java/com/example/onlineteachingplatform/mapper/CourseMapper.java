@@ -42,6 +42,8 @@ public interface CourseMapper {
      * 将 CourseDTO 转换为 CoursePO
      */
     @Mappings({
+            @Mapping(source = "id", target = "id",
+                    defaultExpression = "java(courseDto.getId() != null ? courseDto.getId() : null)"),
             @Mapping(source = "teacherId", target = "teacherId"),
             @Mapping(source = "name", target = "name"),
             @Mapping(source = "beginTime", target = "beginTime"),

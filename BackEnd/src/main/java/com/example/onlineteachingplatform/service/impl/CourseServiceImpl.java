@@ -13,6 +13,7 @@ import jakarta.annotation.Resource;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -35,6 +36,7 @@ public class CourseServiceImpl implements CourseService {
      * 创建课程
      */
     @Override
+    @Transactional
     public CourseVO createCourse(String courseName, Integer teacherId, LocalDateTime beginTime, LocalDateTime endTime,
                                  MultipartFile video) {
         // 插入信息
@@ -50,31 +52,90 @@ public class CourseServiceImpl implements CourseService {
             return null;
         }
 
-        try {
-            // 视频保存相对路径 视频名与对应课程名相同
-            String videoPath = "\\src\\main\\resources\\static\\videos\\";
-            // 项目的根路径
-            String projectRootPath = System.getProperty("user.dir");
-            // 视频保存绝对路径
-            videoPath = projectRootPath + File.separator + videoPath;
+        // 保存视频
+        boolean success = saveVideo(video, coursePo.getName());
 
-            // 文件后缀
-            String originalName = video.getOriginalFilename();
-            String ext = "." + FilenameUtils.getExtension(originalName);
+        if (success) {
+            String teacherName = userDao.selectNameById(teacherId);
+            CourseVO courseVo = CourseMapper.INSTANCE.toCourseVO(coursePo);
+            courseVo.setTeacherName(teacherName);
 
-            File videoFile = new File(videoPath, courseName + ext);
+            return courseVo;
+        } else {
+            throw new RuntimeException("保存视频失败 回滚数据库");
+        }
+    }
 
-            // 保存视频
-            FileUtils.writeByteArrayToFile(videoFile, video.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
+    /**
+     * 更新课程
+     *
+     * @param courseName 课程名
+     * @param teacherId  教师 id
+     * @param beginTime  开始时间
+     * @param endTime    结束时间
+     * @param video      视频
+     * @return 更新后的课程信息
+     */
+    @Override
+    public CourseVO updateCourse(String courseName, Integer teacherId, LocalDateTime beginTime, LocalDateTime endTime,
+                                 MultipartFile video) {
+        // 更新数据库
+        CoursePO coursePo = new CoursePO();
+        coursePo.setName(courseName);
+        coursePo.setTeacherId(teacherId);
+        coursePo.setBeginTime(beginTime);
+        coursePo.setEndTime(endTime);
+        int rowsChanged = courseDao.updateCourse(coursePo);
+
+        // 更新失败
+        if (rowsChanged != 1) {
+            return null;
         }
 
-        String teacherName = userDao.selectNameById(teacherId);
-        CourseVO courseVo = CourseMapper.INSTANCE.toCourseVO(coursePo);
-        courseVo.setTeacherName(teacherName);
+        // 保存视频
+        boolean success = saveVideo(video, coursePo.getName());
 
-        return courseVo;
+        if (success) {
+            String teacherName = userDao.selectNameById(teacherId);
+            CourseVO courseVo = CourseMapper.INSTANCE.toCourseVO(coursePo);
+            courseVo.setTeacherName(teacherName);
+
+            return courseVo;
+        } else {
+            throw new RuntimeException("保存视频失败 回滚数据库");
+        }
+    }
+
+
+    /**
+     * 保存 MultipartFile 到 /static/videos/ 目录下
+     */
+    private boolean saveVideo(MultipartFile file, String courseName) {
+        if (file != null) {
+            try {
+                // 视频保存相对路径 视频名与对应课程名相同
+                String videoPath = "\\src\\main\\resources\\static\\videos\\";
+                // 项目的根路径
+                String projectRootPath = System.getProperty("user.dir");
+                // 视频保存绝对路径
+                videoPath = projectRootPath + File.separator + videoPath;
+
+                // 文件后缀
+                String originalName = file.getOriginalFilename();
+                String ext = "." + FilenameUtils.getExtension(originalName);
+
+                File videoFile = new File(videoPath, courseName + ext);
+
+                // 保存视频
+                FileUtils.writeByteArrayToFile(videoFile, file.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
 
@@ -94,6 +155,7 @@ public class CourseServiceImpl implements CourseService {
 
     /**
      * 学生退课
+     *
      * @param courseSelectionDto 学生课程关系
      * @return 退课后的课程信息
      */
@@ -112,6 +174,7 @@ public class CourseServiceImpl implements CourseService {
 
     /**
      * 根据课程 id 获取课程名
+     *
      * @param courseId 课程 id
      * @return 课程名
      */
@@ -122,6 +185,7 @@ public class CourseServiceImpl implements CourseService {
 
     /**
      * 根据课程 id 获取单个课程相关信息
+     *
      * @param courseId 课程 id
      * @return 课程相关信息
      */
@@ -132,6 +196,7 @@ public class CourseServiceImpl implements CourseService {
 
     /**
      * 获取所有课程列表并根据学生 id 标记已选课程
+     *
      * @param stuId 学生 id
      * @return 所有课程列表 包含是否已选
      */
@@ -142,6 +207,7 @@ public class CourseServiceImpl implements CourseService {
 
     /**
      * 根据学生 id 获取已选课程列表
+     *
      * @param stuId 学生 id
      * @return 已选课程列表
      */
@@ -158,7 +224,8 @@ public class CourseServiceImpl implements CourseService {
 
     /**
      * 根据学生 id 课程 id 获取除此课程以外的其他已选课程列表
-     * @param stuId 学生 id
+     *
+     * @param stuId    学生 id
      * @param courseId 课程 id
      * @return 除此课程以外的其他已选课程列表
      */
@@ -166,6 +233,15 @@ public class CourseServiceImpl implements CourseService {
     public List<CourseVO> getOtherSelectedCourses(Integer stuId, Integer courseId) {
         return courseDao.getOtherSelectedCourses(stuId, courseId);
 
+    }
+
+
+    /**
+     * 根据教师 id 获取教师创建的课程列表
+     */
+    @Override
+    public List<CourseVO> getCreatedCourses(Integer teacherId) {
+        return courseDao.selectCreatedCourses(teacherId);
     }
 
 }

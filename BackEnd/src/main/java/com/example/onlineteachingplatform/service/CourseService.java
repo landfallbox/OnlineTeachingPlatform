@@ -1,5 +1,6 @@
 package com.example.onlineteachingplatform.service;
 
+import com.example.onlineteachingplatform.entity.dto.CourseDTO;
 import com.example.onlineteachingplatform.entity.dto.CourseSelectionDTO;
 import com.example.onlineteachingplatform.entity.vo.CourseVO;
 import com.example.onlineteachingplatform.entity.vo.CourseSelectionVO;
@@ -17,11 +18,20 @@ import java.util.List;
 public interface CourseService {
     /**
      * 创建课程
+     * @param courseName 课程名
+     * @param teacherId 教师 id
+     * @param beginTime 开始时间
+     * @param endTime 结束时间
+     * @param video 课程视频
      */
-    CourseVO createCourse(String courseName,
-                          Integer teacherId,
-                          LocalDateTime beginTime,
-                          LocalDateTime endTime,
+    CourseVO createCourse(String courseName, Integer teacherId, LocalDateTime beginTime, LocalDateTime endTime,
+                          MultipartFile video);
+
+
+    /**
+     * 修改课程
+     */
+    CourseVO updateCourse(String courseName, Integer teacherId, LocalDateTime beginTime, LocalDateTime endTime,
                           MultipartFile video);
 
     /**
@@ -68,4 +78,10 @@ public interface CourseService {
      * @return 除此课程以外的其他已选课程列表
      */
     List<CourseVO> getOtherSelectedCourses(Integer stuId, Integer courseId);
+
+
+    /**
+     * 根据教师 id 获取教师创建的课程列表
+     */
+    List<CourseVO> getCreatedCourses(Integer teacherId);
 }

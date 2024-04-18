@@ -42,6 +42,24 @@ public class CourseController {
         }
     }
 
+    /**
+     * 修改课程
+     */
+    @PostMapping("/update")
+    public Result<CourseVO> update(@RequestParam("name") String courseName,
+                                   @RequestParam("teacherId") Integer teacherId,
+                                   @RequestParam("beginTime") LocalDateTime beginTime,
+                                   @RequestParam("endTime") LocalDateTime endTime,
+                                   @RequestParam(value="video", required = false) MultipartFile video) {
+        CourseVO course = courseService.updateCourse(courseName, teacherId, beginTime, endTime, video);
+
+        if(course != null) {
+            return Result.success(18, "update course successfully", course);
+        } else {
+            return Result.error(19, "fail to update course");
+        }
+    }
+
 
 
     /**
@@ -137,6 +155,20 @@ public class CourseController {
         List<CourseVO> courseList = courseService.getOtherSelectedCourses(stuId, courseId);
 
         if(courseList != null) {
+            return Result.success(4, "get course list success", courseList);
+        } else {
+            return Result.error(5, "get course list fail");
+        }
+    }
+
+    /**
+     * 根据老师 id 获取课程列表
+     */
+    @GetMapping("/list/created")
+    public Result<List<CourseVO>> listCreated(@RequestParam("teacherId") Integer teacherId) {
+        List<CourseVO> courseList = courseService.getCreatedCourses(teacherId);
+
+        if (courseList != null) {
             return Result.success(4, "get course list success", courseList);
         } else {
             return Result.error(5, "get course list fail");
